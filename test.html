@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="utf-8" />
+        <title>File Uploading.</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+
+        <!--[if lt IE 9]>
+          <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+        function deleteFile(file) {
+            var xhr = new XMLHttpRequest();
+            console.log('#'+file);
+            var el = document.getElementById(file);
+            xhr.open('POST', 'delete.php');
+            xhr.onload = function() {
+                if (this.responseText == "1")
+                    el.innerHTML += "Your file has now been deleted.";
+                else{
+                    el.innerHTML = "Sorry, that file no longer exists. Try uploading another file.";
+                    el.id = "";
+                }
+                el.className = "f";
+
+            };
+            xhr.onerror = function() {
+                el.textContent = this.responseText;
+            };
+            var formData = new FormData();  
+            formData.append('myfile', file); 
+            xhr.send(formData);
+        }
+        </script>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="contr"><h2>You can drag and drop multiple files onto the drop zone..</h2></div>
+            <div class="upload_form_cont">
+                <div id="dropArea"><p>Drop Zone.<p></div>
+
+                <div class="info">
+                    <div>Files left to be uploaded: <span id="count">0</span></div>
+                    <div id="result"></div>
+                    <canvas width="910" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <script src="js/script.js"></script>
+    </body>
+</html>

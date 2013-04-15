@@ -1,0 +1,15 @@
+javac SwingCounterWS.java
+jar cfv swing-counter.jar SwingCounter*.class 
+jarsigner -keystore KEYSTORE swing-counter.jar MYSELF
+
+
+
+
+
+
+
+
+javac fileabs.java
+jar cfv swing-counter.jar fileabs*.class 
+jarsigner -keystore KEYSTORE swing-counter.jar MYSELF
+

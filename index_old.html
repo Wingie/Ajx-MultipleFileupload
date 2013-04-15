@@ -1,0 +1,77 @@
+<html>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://www.java.com/js/deployJava.js"></script>
+<script> 
+        var attributes = {
+            code:'fielabs',  width:600, height:130} ; 
+        var parameters = {jnlp_href: './fileabs.jnlp'} ; 
+        deployJava.runApplet(attributes, parameters, '1.6'); 
+    </script>
+<style type="text/css">
+.hover {
+   border: 5px solid red; 
+}
+</style>
+<body>
+<p>1. Select a local file via the browse button to see it's absolute path.</p>
+
+<p id="msg">2. Drag and drop a file anywhere onto this page to upload it.</p>
+<br/>
+<br/>
+<div id="filelist"><p>Uploaded Files:</p><p id="status"></p></div>
+
+<form enctype="multipart/form-data" id="yourregularuploadformId" style="visibility:hidden">
+     <input type="file" name="files[]" multiple="multiple">
+</form>
+
+</body>
+<script type="text/javascript">
+
+function processFileUpload(droppedFiles) {
+         // add your files to the regular upload form
+    var uploadFormData = new FormData(); //$("#yourregularuploadformId")[0]
+    if(droppedFiles.length > 0) { // checks if any files were dropped
+        for(f = 0; f < droppedFiles.length; f++) { // for-loop for each file dropped
+            uploadFormData.append("files[]",droppedFiles[f]);  // adding every file to the form so you could upload multiple files
+        }
+      }
+
+ // the final ajax call
+        document.getElementById('status').innerHTML = "uploading...";
+       $.ajax({
+        url : "upload.php", // use your target
+        type : "POST",
+        data : uploadFormData,
+        chache : false,
+        contentType : false,
+        processData : false,
+        success : function(ret) {
+          var theDiv = document.getElementById('filelist');
+          theDiv.innerHTML += "<p><a target = '_blank' href='upload/"+ ret+"' >"+ret+"</a></p>"; 
+          document.getElementById('status').innerHTML = "";
+          // console.log(ret);
+        }
+       });
+
+ }
+
+var doc = document.documentElement;
+doc.ondragover = function () { this.className = 'hover'; return false; };
+doc.ondragend = function () { this.className = ''; return false; };
+doc.ondrop = function (event) {
+  event.preventDefault && event.preventDefault();
+  this.className = '';
+  console.log(event.dataTransfer.files[0].size);
+  if (event.dataTransfer.files[0].size < 5242880){
+    processFileUpload(event.dataTransfer.files); 
+  }
+  else{
+    var div = document.getElementById('msg');
+    div.innerHTML = "Size over 5Mb. Try a smaller File."
+  }
+  return false;
+};
+
+
+</script>
+</html>

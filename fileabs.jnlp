@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Swing Counter Application -->
+<jnlp spec="1.0+" href="fileabs.jnlp">
+   <information>
+      <title>Absoulte File Path</title>
+      <vendor>Wingston</vendor>
+      <description>Absoulte File Path</description>
+   </information>
+   <resources>
+      <j2se version="1.4+" />
+      <jar href="./swing-counter.jar" />
+   </resources>
+   <applet-desc 
+         name="fileabs"
+         main-class="fileabs.class"
+         width="500"
+         height="500">
+     </applet-desc>
+   <security>
+    <all-permissions />
+  </security>
+</jnlp>
